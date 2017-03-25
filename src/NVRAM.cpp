@@ -210,14 +210,15 @@ uint32_t *NVRAMClass::switch_page(uint32_t *old_vpage, uint16_t *log_start,
   Flash.write(new_vpage, map_length);
 #else
   // find map length
-  for (uint16_t i = (NVRAM_LENGTH >> 2); i >= 0; i--) {
+  for (uint16_t i = (NVRAM_LENGTH >> 2); i > 0; i--) {
     read_block((uint8_t *)&value, i << 2, 4);
     if (value != (uint32_t)~0) {
       // Value found
-      map_length = i + 1;
+      map_length = i;
       break;
     }
   }
+  map_length++;
 
   // Store map length
   Flash.write(new_vpage, map_length);
