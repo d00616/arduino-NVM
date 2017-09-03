@@ -15,13 +15,13 @@ before_install:
   - tar xf arduino-$IDE_VERSION-linux64.tar.xz
   - mv arduino-$IDE_VERSION $HOME/arduino-ide
   - export PATH=$PATH:$HOME/arduino-ide
-  - arduino --pref "boardsmanager.additional.urls=https://redbearlab.github.io/arduino/package_redbearlab_index.json,http://rfduino.com/package_rfduino166_index.json,https://redbearlab.github.io/arduino/package_redbearlab_index.json,https://sandeepmistry.github.io/arduino-nRF5/package_nRF5_boards_index.json,https://d00616.github.io/arduino-nRF5/package_nRF5_boards_index.json" --save-prefs
+  - arduino --pref "boardsmanager.additional.urls=https://redbearlab.github.io/arduino/package_redbearlab_index.json,http://rfduino.com/package_rfduino166_index.json,https://redbearlab.github.io/arduino/package_redbearlab_index.json,https://sandeepmistry.github.io/arduino-nRF5/package_nRF5_boards_index.json" --save-prefs
   - #arduino --install-boards arduino:sam >/dev/null
   - #arduino --install-boards arduino:samd >/dev/null
   - arduino --install-boards RFduino:RFduino >/dev/null
   - arduino --install-boards RedBear:nRF51822 >/dev/null
-  - #arduino --install-boards sandeepmistry:nRF5 >/dev/null
-  - arduino --install-boards d00616:nRF5 >/dev/null
+  - arduino --install-boards sandeepmistry:nRF5 >/dev/null
+  - arduino --install-boards arduino:nrf52 >/dev/null
   - buildExampleSketch() { arduino --verbose-build --verify --board $1 $PWD/examples/$2/$2.ino; }
 install:
   - mkdir -p $HOME/Arduino/libraries
@@ -32,7 +32,6 @@ script:
   - buildExampleSketch "RFduino:RFduino:RFduino" test_all
   - buildExampleSketch "RedBear:nRF51822:nRF51822" test_all
   - buildExampleSketch "RedBear:nRF51822:nRF51822_NANO" test_all
-  - #buildExampleSketch "sandeepmistry:nRF5:Generic_nRF51822:chip=xxac" test_all
-  - #buildExampleSketch "sandeepmistry:nRF5:Generic_nRF52832" test_all
-  - buildExampleSketch "d00616:nRF5:Generic_nRF51822:chip=xxac" test_all
-  - buildExampleSketch "d00616:nRF5:Generic_nRF52832" test_all
+  - buildExampleSketch "sandeepmistry:nRF5:Generic_nRF51822:chip=xxac" test_all
+  - buildExampleSketch "sandeepmistry:nRF5:Generic_nRF52832" test_all
+  - buildExampleSketch "arduino:nrf52:primo" test_all
