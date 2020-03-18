@@ -27,8 +27,10 @@ uint32_t FlashClass::page_size() const {
 uint8_t FlashClass::page_size_bits() const {
 #if defined(NRF51)
   return 10;
-#elif defined(NRF52)
+#elif defined(NRF52) || defined(NRF52840)
   return 12;
+#else
+  #warning "Unknown platform. Please check the code."
 #endif
 }
 
@@ -47,7 +49,7 @@ void FlashClass::erase(uint32_t *address, size_t size) {
 
   // align address
   address =
-      (uint32_t *)((size_t)address & (size_t)((size_t)(~0) - FLASH_PAGE_SIZE));
+      (uint32_t *)( (size_t)address & ~((size_t)FLASH_PAGE_SIZE - 1) );
 
   // Wrong parameters?
   if ((size_t)address >= end_address)
